@@ -20,11 +20,11 @@ class OrganizationController {
     OrganizationService organizationService
 
     //create org
-    @RequestMapping(value = 'create/{id}/{name}/{contactName}/{contactEmail}', method = RequestMethod.POST)
-    ResponseEntity<Organization> createOrganization(@PathVariable('id') String id,
-                                                    @PathVariable('name') String name,
-                                                    @PathVariable('contactName') String contactName,
-                                                    @PathVariable('contactEmail') String contactEmail
+    @RequestMapping(value = '/create/{id}/{name}/{contactName}/{contactEmail}', method = RequestMethod.POST)
+    ResponseEntity<Organization> createOrganization(@PathVariable String id,
+                                                    @PathVariable String name,
+                                                    @PathVariable String contactName,
+                                                    @PathVariable String contactEmail
     ) {
         new ResponseEntity(organizationService.createOrganization(id,name,contactName,contactEmail), HttpStatus.CREATED)
     }
@@ -35,20 +35,20 @@ class OrganizationController {
         new ResponseEntity<Organization>(organizationService.findOrganization(organizationId), HttpStatus.OK)
     }
 
-    //delete  org
+    //delete org
     @RequestMapping(value = '/delete/{id}', method = RequestMethod.DELETE)
     ResponseEntity deleteOrganization(@PathVariable String id) {
         new ResponseEntity(organizationService.deleteOrganization(id), HttpStatus.NO_CONTENT)
     }
 
     //update org
-    @RequestMapping(value = '/update/{id}', method = RequestMethod.PUT)
-    ResponseEntity<Organization> updateOrg(@PathVariable('id') String id,
-                                           @PathVariable('name') String name,
-                                           @PathVariable('contactName') String contactName,
-                                           @PathVariable('contactEmail') String contactEmail
+    @RequestMapping(value = '/update/{organizationId}', method = RequestMethod.PUT)
+    ResponseEntity<Organization> updateOrg(@PathVariable String organizationId,
+                                           @PathVariable String name,
+                                           @PathVariable String contactName,
+                                           @PathVariable String contactEmail
     ) {
-        new ResponseEntity<Organization>(organizationService.updateOrganization(id,name,contactName,contactEmail), HttpStatus.OK)
+        new ResponseEntity<Organization>(organizationService.updateOrganization(organizationId,name,contactName,contactEmail), HttpStatus.OK)
     }
 
 }

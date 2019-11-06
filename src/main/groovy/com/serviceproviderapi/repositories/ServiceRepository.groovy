@@ -1,26 +1,24 @@
 package com.serviceproviderapi.repositories
 
-import com.serviceproviderapi.entities.Address
-import com.serviceproviderapi.entities.Ethnicity
-import com.serviceproviderapi.entities.Geometry
-import com.serviceproviderapi.entities.Language
-import com.serviceproviderapi.entities.Provider
-import com.serviceproviderapi.entities.Service
+
+import com.serviceproviderapi.entities.ProviderServices
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface ServiceRepository extends JpaRepository<Service,Long> {
+interface ServiceRepository extends JpaRepository<ProviderServices,Long> {
 
-    List<Service> findByAddress(Address address)
+    List<ProviderServices> findByAddress(String service_id)
 
-    List<Service> findByLanguage(Language language)
+    List<ProviderServices> findByLanguage(String service_id)
 
-    List<Service> findByEthnicity(Ethnicity ethnicity)
+    List<ProviderServices> findByEthnicity(String service_id)
 
-    List<Service> findAll()
+    List<ProviderServices> findAll()
 
-    List<Service> findByProvider(Provider provider)
+    List<ProviderServices> findByProviderId(String provider_id)
 
-    List<Service> findServiceByGeometry(Geometry geometries)
+    List<ProviderServices> findByGeometry(String service_id)
+
+    ProviderServices findByServiceId(String service_id)
 
     void delete(String id)
 }

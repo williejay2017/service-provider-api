@@ -5,9 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ProviderRepository extends JpaRepository<Provider, Long> {
 
-    Provider findProviderByProviderId(String id)
-
-    Provider findByOrganizationId(String id)
+    Provider findByProviderIdAndOrganizationId(String id , String organizationId)
 
     Provider findByName(String name)
 
@@ -19,10 +17,9 @@ interface ProviderRepository extends JpaRepository<Provider, Long> {
 
     List<Provider> findAll()
 
-    List<Provider> findAllProviderByOrgId(String id)
+    List<Provider> findAllProviderByOrganizationId(String id)
 
-    void delete(String id)
+    void delete(Provider provider)
 
-    void deleteAll(String id)
 
 }

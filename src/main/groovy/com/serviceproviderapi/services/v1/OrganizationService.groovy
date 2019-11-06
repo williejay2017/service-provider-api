@@ -19,12 +19,8 @@ class OrganizationService {
                 contactName: contactName,
                 contactEmail: contactEmail,
         )
-        saveOrganization(organization)
-        organization
-    }
-
-    Organization saveOrganization(Organization organization) {
         organizationRepository.save(organization)
+        organization
     }
 
     void deleteOrganization(String id) {
@@ -34,10 +30,12 @@ class OrganizationService {
 
     Organization findOrganization(String id) {
         Organization organization = organizationRepository.findByOrganizationId(id)
-        if(organization) {
-            return organization
-        }
-        throw new NotFoundException(message: 'Organization not found')
+        if(!organization) {throw new NotFoundException(message: 'Organization not found')}
+        organization
+    }
+
+    void saveOrganization(Organization organization) {
+        organizationRepository.save(organization)
     }
 
     Organization updateOrganization(String id, String name, String contactName, String contactEmail) {

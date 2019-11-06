@@ -1,8 +1,10 @@
 package com.serviceproviderapi.entities
 
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -20,5 +22,8 @@ class Organization {
 
     @Column(name='contact_email')
     String contactEmail
+
+    @OneToMany(mappedBy = 'organization_id', orphanRemoval = true, cascade = CascadeType.ALL)
+    List<Provider> providers
 
 }
