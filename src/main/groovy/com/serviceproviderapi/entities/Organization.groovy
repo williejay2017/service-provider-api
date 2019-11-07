@@ -11,7 +11,7 @@ import javax.persistence.Table
 @Table(name = 'organization')
 class Organization {
     @Id
-    @Column(name = 'organization_id', unique = true, nullable = false)
+    @Column(name = 'organization_id')
     String id
 
     @Column(name='name')
@@ -23,7 +23,16 @@ class Organization {
     @Column(name='contact_email')
     String contactEmail
 
-    @OneToMany(mappedBy = 'organization_id', orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true, targetEntity = Provider.class)
     List<Provider> providers
 
+    List<Provider> getProviders() {
+        return providers
+    }
+
+    void setProviders(List<Provider> providers) {
+        this.providers = providers
+    }
 }

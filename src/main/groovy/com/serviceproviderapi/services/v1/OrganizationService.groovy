@@ -11,15 +11,14 @@ class OrganizationService {
 
     @Autowired
     OrganizationRepository organizationRepository
-
-    Organization createOrganization(String id, String name, String contactName, String contactEmail){
-        Organization organization = new Organization(
-                id: id,
-                name: name,
-                contactName: contactName,
-                contactEmail: contactEmail,
+    Organization createOrganization(Organization organization){
+        Organization org = new Organization(
+                id: organization.id,
+                name: organization.name,
+                contactName: organization.contactName,
+                contactEmail: organization.contactEmail,
         )
-        organizationRepository.save(organization)
+        organizationRepository.save(org)
         organization
     }
 
@@ -29,7 +28,7 @@ class OrganizationService {
     }
 
     Organization findOrganization(String id) {
-        Organization organization = organizationRepository.findByOrganizationId(id)
+        Organization organization = organizationRepository.findById(id)
         if(!organization) {throw new NotFoundException(message: 'Organization not found')}
         organization
     }
@@ -38,13 +37,13 @@ class OrganizationService {
         organizationRepository.save(organization)
     }
 
-    Organization updateOrganization(String id, String name, String contactName, String contactEmail) {
-        Organization organization = findOrganization(id)
-        organization.name = name
-        organization.contactEmail = contactEmail
-        organization.contactName = contactName
-        organizationRepository.save(organization)
-        organization
+    Organization updateOrganization(Organization organization) {
+        Organization org = findOrganization(organization.id)
+        org.name = organization.name
+        org.contactEmail = organization.contactEmail
+        org.contactName = organization.contactName
+        organizationRepository.save(org)
+        org
     }
 
 }

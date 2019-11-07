@@ -16,13 +16,10 @@ class Geometry {
     @Column(name='geometrie_id', unique= true, nullable = false)
     String id
 
-    @Column(name='geometrie_service_id')
-    String serviceId
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = 'service_id', insertable =true, updatable =true)
+    ProviderServices serviceId
 
     @Column(name='geometry')
-    List<String> geometries
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = 'service_id')
-    ProviderServices service
+    String geometries
 }

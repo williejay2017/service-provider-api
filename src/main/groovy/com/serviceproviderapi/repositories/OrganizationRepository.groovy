@@ -7,5 +7,5 @@ interface OrganizationRepository extends JpaRepository<Organization, Long> {
 
     void delete(Organization organization)
 
-    Organization findByOrganizationId(String id)
+    Organization findById(String organization_id)
 }

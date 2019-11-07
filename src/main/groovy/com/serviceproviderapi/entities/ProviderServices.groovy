@@ -16,26 +16,35 @@ class ProviderServices {
     @Column(name='service_id', unique = true, nullable = false)
     String id
 
-    @Column(name='provider_id')
-    String providerId
-
     @Column(name='service_name')
     String name
 
     @Column(name='service_type')
     String type
 
-    @OneToMany(mappedBy = 'service_id', orphanRemoval = true)
+    @OneToMany(mappedBy = 'serviceId', orphanRemoval = true, targetEntity = Address.class)
     List<Address> addresses
 
-    @OneToMany(mappedBy = 'service_id', orphanRemoval = true)
+    @OneToMany(mappedBy = 'serviceId', orphanRemoval = true, targetEntity = Ethnicity.class)
     List<Ethnicity> ethnicities
 
-    @OneToMany(mappedBy = 'service_id', orphanRemoval = true)
+    @OneToMany(mappedBy = 'serviceId', orphanRemoval = true, targetEntity = Geometry.class)
     List<Geometry> geometries
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = 'provider_id')
+    @OneToMany(mappedBy = 'serviceId', orphanRemoval = true, targetEntity = Language.class)
+    List<Language> languages
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = 'provider_id', insertable =true, updatable =true)
     Provider provider
+
+    Provider getProvider() {
+        return provider
+    }
+
+    void setProvider(Provider provider) {
+        this.provider = provider
+    }
+
 
 }

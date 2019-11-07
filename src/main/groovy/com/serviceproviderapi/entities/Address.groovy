@@ -10,26 +10,23 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = 'address')
-class Address {
+class Address implements Serializable {
 
     @Id
-    @Column(name='service_id')
-    String serviceId
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = 'service_id', insertable =true, updatable =true)
+    ProviderServices serviceId
 
     @Column(name='street')
     String street
 
-    @Column(name='')
+    @Column(name='city')
     String city
 
-    @Column(name='')
+    @Column(name='state')
     String state
 
-    @Column(name='')
+    @Column(name='zip_code')
     String zipCode
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = 'service_id')
-    ProviderServices service
 
 }

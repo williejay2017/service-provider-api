@@ -17,9 +17,6 @@ class Provider {
     @Column(name = 'provider_id', unique = true, nullable = false)
     String id
 
-    @Column(name='organization_id', nullable = false)
-    String organizationId
-
     @Column(name='provider_name')
     String name
 
@@ -32,11 +29,18 @@ class Provider {
     @Column(name='provider_fax')
     String fax
 
-    @OneToMany(mappedBy = 'provider_id', orphanRemoval = true)
-    List<ProviderServices> services
+    @OneToMany(mappedBy = 'provider', orphanRemoval = true, targetEntity = ProviderServices.class)
+    List<ProviderServices> providerServices
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = 'organization_id')
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = 'organization_id', insertable =true, updatable =true)
     Organization organization
 
+    Organization getOrganization() {
+        return organization
+    }
+
+    void setOrganization(Organization organization) {
+        this.organization = organization
+    }
 }

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: service-provider-api
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    platform: postgre
+    url: jdbc:postgresql://schdb.cximbrleqgzo.us-east-2.rds.amazonaws.com:5432/postgres
+    username: sch_admin
+    password: 1234work

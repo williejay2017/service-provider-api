@@ -18,10 +18,8 @@ class Ethnicity {
     @Column(name='ethnic_type')
     String type
 
-    @Column(name='ethnicity_service_id')
-    String serviceId
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = 'service_id', insertable =true, updatable =true)
+    ProviderServices serviceId
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = 'service_id')
-    ProviderServices service
 }
