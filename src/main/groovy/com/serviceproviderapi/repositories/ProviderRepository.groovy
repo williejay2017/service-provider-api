@@ -9,9 +9,6 @@ interface ProviderRepository extends JpaRepository<Provider, Long> {
 
     List<Provider> findAll()
 
-    List<Provider> findAllById(String id)
-
-    //void delete(Provider provider)
-
+    void deleteById(String id)
 
 }

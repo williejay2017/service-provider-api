@@ -20,6 +20,6 @@ class Ethnicity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'service_id', insertable =true, updatable =true)
-    ProviderServices serviceId
+    Services serviceId
 
 }

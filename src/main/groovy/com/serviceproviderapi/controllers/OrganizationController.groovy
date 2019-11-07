@@ -2,6 +2,7 @@ package com.serviceproviderapi.controllers
 
 import com.serviceproviderapi.entities.Organization
 import com.serviceproviderapi.services.v1.OrganizationService
+import com.serviceproviderapi.vos.OrganizationRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.HttpStatus
@@ -22,9 +23,9 @@ class OrganizationController {
 
     //create org
     @RequestMapping(value = '', method = RequestMethod.POST)
-    ResponseEntity<Organization> createOrganization(@RequestBody Organization organization
+    ResponseEntity<Organization> createOrganization(@RequestBody OrganizationRequest organizationRequest
     ) {
-        new ResponseEntity(organizationService.createOrganization(organization), HttpStatus.CREATED)
+        new ResponseEntity(organizationService.createOrganization(organizationRequest), HttpStatus.CREATED)
     }
 
     //get organization
@@ -34,10 +35,9 @@ class OrganizationController {
     }
 
     //update org
-    @RequestMapping(value = '/update', method = RequestMethod.PUT)
-    ResponseEntity<Organization> updateOrg(@RequestBody Organization organization
-    ) {
-        new ResponseEntity<Organization>(organizationService.updateOrganization(organization), HttpStatus.OK)
+    @RequestMapping(value = '/update/{orgId}', method = RequestMethod.PUT)
+    ResponseEntity<Organization> updateOrg(@PathVariable String orgId, @RequestBody OrganizationRequest organizationRequest) {
+        new ResponseEntity<Organization>(organizationService.updateOrganization(orgId, organizationRequest), HttpStatus.OK)
     }
 
 }

@@ -11,7 +11,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name='service')
-class ProviderServices {
+class Services {
     @Id
     @Column(name='service_id', unique = true, nullable = false)
     String id
@@ -37,14 +37,6 @@ class ProviderServices {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'provider_id', insertable =true, updatable =true)
     Provider provider
-
-    Provider getProvider() {
-        return provider
-    }
-
-    void setProvider(Provider provider) {
-        this.provider = provider
-    }
 
 
 }

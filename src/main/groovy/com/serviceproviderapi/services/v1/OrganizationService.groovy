@@ -2,6 +2,7 @@ package com.serviceproviderapi.services.v1
 
 import com.serviceproviderapi.entities.Organization
 import com.serviceproviderapi.repositories.OrganizationRepository
+import com.serviceproviderapi.vos.OrganizationRequest
 import javassist.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -11,17 +12,18 @@ class OrganizationService {
 
     @Autowired
     OrganizationRepository organizationRepository
-    Organization createOrganization(Organization organization){
+    Organization createOrganization(OrganizationRequest organizationRequest){
         Organization org = new Organization(
-                id: organization.id,
-                name: organization.name,
-                contactName: organization.contactName,
-                contactEmail: organization.contactEmail,
+                id: organizationRequest.id,
+                name: organizationRequest.name,
+                contactName: organizationRequest.contactName,
+                contactEmail: organizationRequest.contactEmail,
         )
         organizationRepository.save(org)
-        organization
+        org
     }
 
+    //more of an admin method
     void deleteOrganization(String id) {
         Organization organization = findOrganization(id)
         organizationRepository.delete(organization)
@@ -33,17 +35,14 @@ class OrganizationService {
         organization
     }
 
-    void saveOrganization(Organization organization) {
-        organizationRepository.save(organization)
-    }
 
-    Organization updateOrganization(Organization organization) {
-        Organization org = findOrganization(organization.id)
-        org.name = organization.name
-        org.contactEmail = organization.contactEmail
-        org.contactName = organization.contactName
-        organizationRepository.save(org)
-        org
+    Organization updateOrganization(String orgId, OrganizationRequest organizationRequest) {
+        Organization organization = findOrganization(orgId)
+        organization.name = organizationRequest.name
+        organization.contactEmail = organizationRequest.contactEmail
+        organization.contactName = organizationRequest.contactName
+        organizationRepository.save(organization)
+        organization
     }
 
 }

@@ -1,35 +1,32 @@
 package com.serviceproviderapi.controllers
 
+import com.serviceproviderapi.entities.Organization
 import com.serviceproviderapi.entities.Provider
-import com.serviceproviderapi.entities.ProviderServices
 import com.serviceproviderapi.services.v1.ProviderService
+import com.serviceproviderapi.vos.ProviderRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping(value = '/v1/provider/{organization_id}/{providerId}')
+@RequestMapping(value = '/v1/{orgId}/providers')
 class ProviderController {
 
     @Autowired
     ProviderService providerService
 
     //create provider
-    @RequestMapping(value = '/create/{id}/{name}/{email}/{phone}/{fax}', method = RequestMethod.POST)
-    ResponseEntity<Provider> createProvider(@PathVariable String id,
-                                            @PathVariable String organization_id,
-                                            @PathVariable String name,
-                                            @PathVariable String email,
-                                            @PathVariable String phone,
-                                            @PathVariable String fax)
+    @RequestMapping(value = '/create', method = RequestMethod.POST)
+    ResponseEntity<List<Provider>> createProvider(@RequestBody ProviderRequest providerRequest, @PathVariable String orgId)
     {
-        new ResponseEntity<Provider>(providerService.createProvider(id, organization_id, name, email,phone,fax), HttpStatus.CREATED)
+        new ResponseEntity<List<Provider>>(providerService.createProvider(providerRequest, orgId), HttpStatus.CREATED)
     }
 
     //get single provider
@@ -40,50 +37,22 @@ class ProviderController {
 
     //get all providers
     @RequestMapping(value = '/findall', method = RequestMethod.GET)
-    ResponseEntity<Provider> getAllProvider(@PathVariable String organization_id) {
-        new ResponseEntity(providerService.getAllProviders(organization_id), HttpStatus.OK)
+    ResponseEntity<List<Provider>> getAllProvider(@PathVariable String orgId) {
+        new ResponseEntity<List<Provider>>(providerService.getAllProviders(orgId), HttpStatus.OK)
     }
 
     //update provider
-    @RequestMapping(value = '/update/{id}/{name}/{email}/{phone}/{fax}', method = RequestMethod.PUT)
-    ResponseEntity<Provider> updateProvider(@PathVariable String id,
-                                            @PathVariable String name,
-                                            @PathVariable String email,
-                                            @PathVariable String phone,
-                                            @PathVariable String fax)
+    @RequestMapping(value = '/update', method = RequestMethod.PUT)
+    ResponseEntity<Provider> updateProvider(@RequestBody ProviderRequest providerRequest, String orgId)
     {
-        new ResponseEntity<Provider>(providerService.updateProvider(id, name, email,phone,fax), HttpStatus.OK)
+        new ResponseEntity<Provider>(providerService.updateProvider(providerRequest), HttpStatus.OK)
     }
 
 
-//    //delete single provider
-//    @RequestMapping(value = '/delete/{providerId}', method = RequestMethod.DELETE)
-//    ResponseEntity deleteProvider(@PathVariable String providerId
-//    ) {
-//        new ResponseEntity(providerService.deleteProvider(providerId), HttpStatus.NO_CONTENT)
-//    }
-
-    //create service
-    @RequestMapping(value = '/create/{serviceId}/{serviceName}/{serviceType}', method = RequestMethod.POST)
-    ResponseEntity<ProviderServices> createProviderService(@PathVariable String providerId, String serviceId, String serviceName, String serviceType) {
-        new ResponseEntity<ProviderServices>(providerService.createService(serviceId,providerId,serviceName,serviceType), HttpStatus.CREATED)
+    //delete single provider
+    @RequestMapping(value = '/delete/{providerId}', method = RequestMethod.DELETE)
+    ResponseEntity deleteProvider(@PathVariable String providerId
+    ) {
+        new ResponseEntity(providerService.deleteProvider(providerId), HttpStatus.NO_CONTENT)
     }
-
-    //get single service
-    @RequestMapping(value = '/service/{serviceId}', method = RequestMethod.GET)
-    ResponseEntity<ProviderServices> getService(@PathVariable String serviceId) {
-        new ResponseEntity<ProviderServices>(providerService.getService(serviceId), HttpStatus.OK)
-    }
-
-    //get all services
-    @RequestMapping(value = '/allservices', method = RequestMethod.GET)
-    ResponseEntity<List<ProviderServices>> getAllServices(@PathVariable String provider_id) {
-        new ResponseEntity<List<ProviderServices>>(providerService.getAllServices(provider_id), HttpStatus.OK)
-    }
-
-//    //delete a service
-//    @RequestMapping(value = '/delete/{serviceId}', method = RequestMethod.DELETE)
-//    ResponseEntity deleteService(@PathVariable String serviceId) {
-//        new ResponseEntity(providerService.deleteService(serviceId), HttpStatus.OK)
-//    }
 }

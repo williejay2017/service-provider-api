@@ -15,7 +15,7 @@ class Address implements Serializable {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'service_id', insertable =true, updatable =true)
-    ProviderServices serviceId
+    Services serviceId
 
     @Column(name='street')
     String street

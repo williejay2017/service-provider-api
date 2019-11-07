@@ -29,18 +29,11 @@ class Provider {
     @Column(name='provider_fax')
     String fax
 
-    @OneToMany(mappedBy = 'provider', orphanRemoval = true, targetEntity = ProviderServices.class)
-    List<ProviderServices> providerServices
+    @OneToMany(mappedBy = 'provider', orphanRemoval = true, targetEntity = Services.class)
+    List<Services> providerServices
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'organization_id', insertable =true, updatable =true)
     Organization organization
 
-    Organization getOrganization() {
-        return organization
-    }
-
-    void setOrganization(Organization organization) {
-        this.organization = organization
-    }
 }

@@ -1,12 +1,18 @@
 package com.serviceproviderapi.services.v1
 
+import com.serviceproviderapi.Exceptions.BadRequestException
+import com.serviceproviderapi.entities.Organization
 import com.serviceproviderapi.entities.Provider
-import com.serviceproviderapi.entities.ProviderServices
+import com.serviceproviderapi.entities.Services
 import com.serviceproviderapi.repositories.ProviderRepository
-import com.serviceproviderapi.repositories.ServiceRepository
+import com.serviceproviderapi.repositories.ServicesRepository
+import com.serviceproviderapi.vos.ProviderRequest
 import javassist.tools.web.BadHttpRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+
+import org.springframework.web.client.HttpClientErrorException
 
 @Service
 class ProviderService {
@@ -15,80 +21,58 @@ class ProviderService {
     ProviderRepository providerRepository
 
     @Autowired
-    ServiceRepository serviceRepository
+    ServicesRepository serviceRepository
+
+    @Autowired
+    OrganizationService organizationService
 
 
-    Provider createProvider(String id, String organization_id, String name, String email, String phone, String fax) {
-        if(providerRepository.findById(id)) {
-            throw new BadHttpRequest(detailMessage: 'Provider exist')
+    List<Provider> createProvider(ProviderRequest providerRequest, String orgId) {
+        Organization organization = organizationService.findOrganization(orgId)
+        if(organization.providers.contains(providerRequest)) {
+            throw new BadRequestException(message: 'provider exist', status: HttpStatus.FOUND)
         }
-        Provider provider = new Provider(
-                id: id,
-                organization_id: organization_id,
-                name: name,
-                email: email,
-                phone: phone,
-                fax: fax
+        Provider prov = new Provider(
+                id: providerRequest.id,
+                organization: organization,
+                name: providerRequest.name,
+                email: providerRequest.email,
+                phone: providerRequest.phone,
+                fax: providerRequest.fax
         )
-        providerRepository.save(provider)
-        provider
+        providerRepository.save(prov)
+        organization.providers
     }
 
-    Provider updateProvider(String id, String name, String email, String phone, String fax) {
-        Provider provider = getProvider(id)
-        provider.id = id
-        provider.name = name
-        provider.email = email
-        provider.phone = phone
-        provider.fax = fax
-        providerRepository.save(provider)
-        provider
+    Provider updateProvider(ProviderRequest providerRequest) {
+        Provider update = providerRepository.findById(providerRequest.id)
+        update.name = providerRequest.name
+        update.email = providerRequest.email
+        update.phone = providerRequest.phone
+        update.fax = providerRequest.fax
+        providerRepository.save(update)
+        update
     }
 
-//    void deleteProvider(String id) {
-//        Provider provider = getProvider(id)
-//        providerRepository.delete(provider)
-//    }
+    void deleteProvider(String providerId) {
+        providerRepository.deleteById(providerId)
+    }
 
 
-    List<Provider> getAllProviders(String organization_id) {
-        providerRepository.findAllById(organization_id)
+    List<Provider> getAllProviders(String orgId) {
+        Organization organization = organizationService.findOrganization(orgId)
+        if(organization) {
+            return organization.providers
+        }
+        throw new BadRequestException(message: 'could not find organization', status: HttpStatus.NOT_FOUND)
     }
 
     Provider getProvider(String id) {
         Provider provider = providerRepository.findById(id)
-        if(!provider) { throw new BadHttpRequest(detailMessage: 'Provider Does Not Exist')}
-        provider
-    }
-
-    ProviderServices createService(String service_id, String provider_id, String service_name, service_type) {
-        ProviderServices services = serviceRepository.findById(service_id)
-        if(services) {
-            throw new BadHttpRequest(detailMessage: 'Service already exist')
+        if(provider) {
+            return provider
         }
-        ProviderServices service = new ProviderServices(
-                id: service_id,
-                providerId: provider_id,
-                name: service_name,
-                type: service_type
-        )
-        serviceRepository.save(service)
+        throw new BadRequestException(message: 'could not find provider', status: HttpStatus.NOT_FOUND)
     }
 
-    ProviderServices getService(String service_id) {
-        ProviderServices providerServices = serviceRepository.findByServiceId(service_id)
-        providerServices
-    }
-
-    List<ProviderServices> getAllServices(String provider_id) {
-       serviceRepository.findByProviderId(provider_id)
-    }
-
-//    void deleteService(String service_id) {
-//        serviceRepository.delete(service_id)
-//    }
-//
-//    void deleteAllServices() {
-//        serviceRepository.deleteAll()
-//    }
 }
