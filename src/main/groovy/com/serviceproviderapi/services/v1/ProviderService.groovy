@@ -21,9 +21,6 @@ class ProviderService {
     ProviderRepository providerRepository
 
     @Autowired
-    ServicesRepository serviceRepository
-
-    @Autowired
     OrganizationService organizationService
 
 
