@@ -1,6 +1,7 @@
 package com.serviceproviderapi.vos
 
-import com.sun.istack.NotNull
+import javax.validation.constraints.NotNull
+
 
 class ProviderRequest {
 
@@ -10,9 +11,12 @@ class ProviderRequest {
     @NotNull
     String name
 
+    @NotNull
     String email
 
+    @NotNull
     String phone
 
+    @NotNull
     String fax
 }

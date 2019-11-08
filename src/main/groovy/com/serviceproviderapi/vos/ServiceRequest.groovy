@@ -1,17 +1,17 @@
 package com.serviceproviderapi.vos
 
 
-import io.micrometer.core.lang.NonNull
+import javax.validation.constraints.NotNull
 
 class ServiceRequest {
 
-    @NonNull
+    @NotNull
     String id
 
-    @NonNull
+    @NotNull
     String name
 
-    @NonNull
+    @NotNull
     String type
 
 }

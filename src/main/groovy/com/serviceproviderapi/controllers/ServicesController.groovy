@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping(value = '/v1/provider/{providerId}/services')
+@RequestMapping(value = '/v1/{providerId}/services')
 class ServicesController {
 
     @Autowired
@@ -28,7 +28,7 @@ class ServicesController {
     }
 
     //get single service
-    @RequestMapping(value = '/service/{serviceId}', method = RequestMethod.GET)
+    @RequestMapping(value = '/{serviceId}', method = RequestMethod.GET)
     ResponseEntity<Services> getService(@PathVariable String serviceId) {
         new ResponseEntity<Services>(servicesService.getService(serviceId), HttpStatus.OK)
     }
@@ -40,13 +40,13 @@ class ServicesController {
     }
 
     //update specific service
-    @RequestMapping(value = '/update/service', method = RequestMethod.PUT)
+    @RequestMapping(value = '/update', method = RequestMethod.PUT)
     ResponseEntity<Services> updateService(@RequestBody ServiceRequest serviceRequest) {
         new ResponseEntity<Services>(servicesService.updateService(serviceRequest), HttpStatus.OK)
     }
 
     //delete a service
-    @RequestMapping(value = '/delete/{serviceId}', method = RequestMethod.DELETE)
+    @RequestMapping(value = '/{serviceId}', method = RequestMethod.DELETE)
     ResponseEntity deleteService(@PathVariable String serviceId) {
         new ResponseEntity(servicesService.deleteServices(serviceId), HttpStatus.OK)
     }

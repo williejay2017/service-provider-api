@@ -2,10 +2,7 @@ package com.serviceproviderapi.entities
 
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -17,23 +14,19 @@ class Provider {
     @Column(name = 'provider_id', unique = true, nullable = false)
     String id
 
-    @Column(name='provider_name')
+    @Column(name='name')
     String name
 
-    @Column(name='provider_email')
+    @Column(name='email')
     String email
 
-    @Column(name='provider_phone')
+    @Column(name='phone_number')
     String phone
 
-    @Column(name='provider_fax')
+    @Column(name='fax_number')
     String fax
 
     @OneToMany(mappedBy = 'provider', orphanRemoval = true, targetEntity = Services.class)
     List<Services> providerServices
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = 'organization_id', insertable =true, updatable =true)
-    Organization organization
 
 }

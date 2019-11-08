@@ -10,17 +10,15 @@ import javax.persistence.Table
 
 @Entity
 @Table(name='languages')
-class Language {
+class Language implements Serializable{
 
     @Id
-    @Column(name='language_id', unique= true, nullable = false)
-    String id
-
-    @Column(name='language')
-    String language
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'service_id', insertable =true, updatable =true)
     Services serviceId
+
+
+    @Column(name='language')
+    String language
 
 }
