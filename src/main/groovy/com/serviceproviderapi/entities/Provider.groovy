@@ -1,7 +1,9 @@
 package com.serviceproviderapi.entities
 
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import javax.persistence.Table
@@ -26,7 +28,7 @@ class Provider {
     @Column(name='fax_number')
     String fax
 
-    @OneToMany(mappedBy = 'provider', orphanRemoval = true, targetEntity = Services.class)
-    List<Services> providerServices
+    @OneToMany(mappedBy = 'provider', cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Services> services
 
 }

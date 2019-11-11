@@ -47,6 +47,9 @@ class ProviderService {
         providerRepository.deleteById(providerId)
     }
 
+    void saveProvider(Provider provider) {
+        providerRepository.save(provider)
+    }
 
     Provider getProvider(String id) {
         Provider provider = providerRepository.findById(id)

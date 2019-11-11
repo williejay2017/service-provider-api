@@ -3,6 +3,7 @@ package com.serviceproviderapi.controllers
 import com.serviceproviderapi.entities.Services
 import com.serviceproviderapi.services.v1.ServicesService
 import com.serviceproviderapi.vos.ServiceRequest
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.HttpStatus
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping(value = '/v1/{providerId}/services')
+@RequestMapping(value = ['/v1/{providerId}', '/services'])
 class ServicesController {
 
     @Autowired
@@ -23,20 +24,20 @@ class ServicesController {
 
     //create service
     @RequestMapping(value = '/create', method = RequestMethod.POST)
-    ResponseEntity<List<Services>> createProviderService(@RequestBody ServiceRequest serviceRequest, @PathVariable String providerId) {
-        new ResponseEntity<List<Services>>(servicesService.createService(providerId,serviceRequest), HttpStatus.CREATED)
+    ResponseEntity<Services> createProviderService(@RequestBody ServiceRequest serviceRequest , @PathVariable('providerId') String providerId) {
+        new ResponseEntity<Services>(servicesService.createService(serviceRequest, providerId), HttpStatus.CREATED)
     }
 
     //get single service
     @RequestMapping(value = '/{serviceId}', method = RequestMethod.GET)
-    ResponseEntity<Services> getService(@PathVariable String serviceId) {
+    ResponseEntity<Services> getService(@PathVariable('serviceId') String serviceId) {
         new ResponseEntity<Services>(servicesService.getService(serviceId), HttpStatus.OK)
     }
 
     //get all services
     @RequestMapping(value = '/allservices', method = RequestMethod.GET)
-    ResponseEntity<List<Services>> getAllServices(@PathVariable String provider_id) {
-        new ResponseEntity<List<Services>>(servicesService.getAllServices(provider_id), HttpStatus.OK)
+    ResponseEntity<List<Services>> getAllServices(@PathVariable('providerId') String providerId) {
+        new ResponseEntity<List<Services>>(servicesService.getAllServices(providerId), HttpStatus.OK)
     }
 
     //update specific service
@@ -47,7 +48,13 @@ class ServicesController {
 
     //delete a service
     @RequestMapping(value = '/{serviceId}', method = RequestMethod.DELETE)
-    ResponseEntity deleteService(@PathVariable String serviceId) {
+    ResponseEntity deleteService(@PathVariable('serviceId') String serviceId) {
         new ResponseEntity(servicesService.deleteServices(serviceId), HttpStatus.OK)
+    }
+
+    //retrieve a list of services given challenges
+    @RequestMapping(value = '/retrieve', method = RequestMethod.GET)
+    ResponseEntity<List<Services>> getServicesAssociateWithChallenges(@RequestBody List<String> challengeIds) {
+        new ResponseEntity<List<Services>>(servicesService.getServicesAssociateToChallenge(challengeIds), HttpStatus.ACCEPTED)
     }
 }

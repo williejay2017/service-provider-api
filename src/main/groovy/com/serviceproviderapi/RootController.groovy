@@ -9,6 +9,6 @@ class RootController {
 
     @RequestMapping(value = '', method = RequestMethod.GET)
     String index() {
-        return '<-----Service Provider Api----->'
+        return '<-----Greetings from Service Provider Api----->'
     }
 }
