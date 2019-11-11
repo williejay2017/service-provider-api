@@ -5,7 +5,7 @@ import com.serviceproviderapi.entities.Challenge
 import com.serviceproviderapi.entities.Ethnicity
 import com.serviceproviderapi.entities.Geometry
 import com.serviceproviderapi.entities.Language
-import jdk.internal.jline.internal.Nullable
+import org.springframework.lang.Nullable
 
 import javax.validation.constraints.NotNull
 
