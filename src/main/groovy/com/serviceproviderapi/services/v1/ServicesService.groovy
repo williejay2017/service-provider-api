@@ -79,7 +79,8 @@ class ServicesService {
 
     //just for the demo, not final
     List<Services> getServicesAssociateToChallenge(List<String> challengeIds) {
-        List<Services> servicesList = findAll()
+
+        List<Services> servicesList = servicesRepository.findAll()
         List<Services> returnList = new ArrayList<Services>()
         challengeIds[0] == servicesList[0].challenges[0].challengeId
         for(int i = 0; i < servicesList.size();  i++) {
