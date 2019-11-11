@@ -14,11 +14,12 @@ import javax.persistence.Table
 @Table(name = 'geometries')
 class Geometry implements Serializable {
 
-    @Id
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'service_id', insertable = true, updatable = true)
     Services serviceId
 
+    @Id
     @Column(name = 'geometry')
     Polygon polygon
 }

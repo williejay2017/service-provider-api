@@ -48,4 +48,7 @@ class ProviderController {
     ) {
         new ResponseEntity(providerService.deleteProvider(providerId), HttpStatus.NO_CONTENT)
     }
+
+//    @RequestMapping(value = '/demo', method = RequestMethod.GET)
+//    ResponseEntity demoMethod()
 }

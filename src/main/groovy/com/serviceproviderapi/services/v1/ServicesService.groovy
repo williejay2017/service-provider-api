@@ -1,9 +1,12 @@
 package com.serviceproviderapi.services.v1
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.serviceproviderapi.Exceptions.BadRequestException
+import com.serviceproviderapi.entities.Address
 import com.serviceproviderapi.entities.Provider
 import com.serviceproviderapi.entities.Services
 import com.serviceproviderapi.repositories.ServicesRepository
+
 import com.serviceproviderapi.vos.ServiceRequest
 import javassist.tools.web.BadHttpRequest
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,20 +22,38 @@ class ServicesService {
     @Autowired
     ProviderService providerService
 
+    @Autowired
+    AddressService addressService
 
-    List<Services> createService (String providerId, ServiceRequest serviceRequest) {
+    @Autowired
+    ChallengeService challengeService
+
+
+    Services createService (ServiceRequest serviceRequest, String providerId) {
         Provider provider = providerService.getProvider(providerId)
-        if(provider.providerServices.contains(serviceRequest)) {
-            throw new BadHttpRequest(detailMessage: 'Service Already Exist')
-        }
-        Services newServices = new Services(
+        Services services = new Services(
                 id: serviceRequest.id,
                 name: serviceRequest.name,
                 type: serviceRequest.type,
-                provider: provider
+                provider: provider,
         )
-        servicesRepository.save(newServices)
-        provider.providerServices
+        if(provider.services.contains(services)) {
+            throw new BadHttpRequest(detailMessage: 'Service Already Exist')
+        }
+        servicesRepository.save(services)
+
+        if(serviceRequest.address.size() > 0) {
+            for(address in serviceRequest.address) {
+                addressService.createAddress(address, services)
+            }
+        }
+
+        if(serviceRequest.challenge.size() > 0) {
+            for(challenge in serviceRequest.challenge) {
+                challengeService.createChallenge(services, challenge.challengeId)
+            }
+        }
+        services
     }
 
     Services getService (String serviceId) {
@@ -45,7 +66,7 @@ class ServicesService {
 
     List<Services> getAllServices (String providerId) {
         Provider provider = providerService.getProvider(providerId)
-        provider.providerServices
+        provider.services
     }
 
     Services updateService (ServiceRequest serviceRequest) {
@@ -54,6 +75,28 @@ class ServicesService {
         update.type = serviceRequest.type
         servicesRepository.save(update)
         update
+    }
+
+    //just for the demo, not final
+    List<Services> getServicesAssociateToChallenge(List<String> challengeIds) {
+        List<Services> servicesList = findAll()
+        List<Services> returnList = new ArrayList<Services>()
+        challengeIds[0] == servicesList[0].challenges[0].challengeId
+        for(int i = 0; i < servicesList.size();  i++) {
+           for(int j = 0; j < servicesList[i].challenges.size(); j++) {
+               for(int k =0; k < challengeIds.size(); k++) {
+                   if(servicesList[i].challenges[j].challengeId == challengeIds[k]) {
+                        returnList.add(servicesList[i])
+                   }
+               }
+
+           }
+        }
+        returnList
+    }
+
+    void saveServices (Services services) {
+        servicesRepository.save(services)
     }
 
     void deleteServices (String serviceId) {

@@ -12,12 +12,12 @@ import javax.persistence.Table
 @Table(name='languages')
 class Language implements Serializable{
 
-    @Id
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = 'service_id', insertable =true, updatable =true)
     Services serviceId
 
-
+    @Id
     @Column(name='language')
     String language
 
