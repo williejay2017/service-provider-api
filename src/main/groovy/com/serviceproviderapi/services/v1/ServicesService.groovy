@@ -66,7 +66,7 @@ class ServicesService {
 
     List<Services> getAllServices (String providerId) {
         Provider provider = providerService.getProvider(providerId)
-        provider.services
+        provider.services.unique()
     }
 
     Services updateService (ServiceRequest serviceRequest) {
@@ -90,10 +90,9 @@ class ServicesService {
                         returnList.add(servicesList[i])
                    }
                }
-
            }
         }
-        returnList
+        returnList.unique()
     }
 
     void saveServices (Services services) {
