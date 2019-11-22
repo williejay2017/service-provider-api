@@ -42,13 +42,13 @@ class ServicesService {
         }
         servicesRepository.save(services)
 
-        if(serviceRequest.address.size() > 0) {
+        if(serviceRequest.address) {
             for(address in serviceRequest.address) {
                 addressService.createAddress(address, services)
             }
         }
 
-        if(serviceRequest.challenge.size() > 0) {
+        if(serviceRequest.challenge) {
             for(challenge in serviceRequest.challenge) {
                 challengeService.createChallenge(services, challenge.challengeId)
             }

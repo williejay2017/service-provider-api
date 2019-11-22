@@ -7,6 +7,7 @@ import com.serviceproviderapi.entities.Geometry
 import com.serviceproviderapi.entities.Language
 import org.springframework.lang.Nullable
 
+
 import javax.validation.constraints.NotNull
 
 class ServiceRequest {

@@ -15,8 +15,9 @@ import javax.persistence.Table
 @Entity
 @Table(name='service')
 class Services implements Serializable {
+
     @Id
-    @Column(name='service_id', unique = true, nullable = false)
+    @Column(name='service_id')
     String id
 
     @Column(name='service_name')
@@ -37,7 +38,7 @@ class Services implements Serializable {
     @OneToMany(mappedBy = 'serviceId', cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Language.class)
     List<Language> languages
 
-    @OneToMany(mappedBy = 'serviceId', cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Challenge.class)
+    @OneToMany(mappedBy = 'serviceId', targetEntity = Challenge.class)
     List<Challenge> challenges
 
     @JsonIgnore
