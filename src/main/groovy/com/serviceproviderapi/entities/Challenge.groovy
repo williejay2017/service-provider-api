@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -15,16 +15,16 @@ import javax.persistence.Table
 @Table(name = 'challenge')
 class Challenge implements Serializable{
 
-    @Id @GeneratedValue
-    @Column(name = 'id')
+
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = 'id', columnDefinition="text")
     int id
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = 'service_id', insertable =true, updatable =true)
+    @ManyToOne(targetEntity = Services.class)
+    @JoinColumn(name = 'serviceId')
     Services serviceId
 
     @Column(name = 'challenge_id')
     String challengeId
-
 }
