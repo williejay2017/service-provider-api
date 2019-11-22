@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,6 +23,7 @@ class ProviderController {
     ProviderService providerService
 
     //create provider
+    @CrossOrigin
     @RequestMapping(value = '/create', method = RequestMethod.POST)
     ResponseEntity<Provider> createProvider(@RequestBody ProviderRequest providerRequest)
     {
@@ -29,12 +31,14 @@ class ProviderController {
     }
 
     //get single provider
+    @CrossOrigin
     @RequestMapping(value = '/find', method = RequestMethod.GET)
     ResponseEntity<Provider> getProvider(@PathVariable String providerId) {
         new ResponseEntity<Provider>(providerService.getProvider(providerId), HttpStatus.OK)
     }
 
     //update provider
+    @CrossOrigin
     @RequestMapping(value = '/update', method = RequestMethod.PUT)
     ResponseEntity<Provider> updateProvider(@RequestBody ProviderRequest providerRequest)
     {
@@ -43,12 +47,11 @@ class ProviderController {
 
 
     //delete single provider
+    @CrossOrigin
     @RequestMapping(value = '', method = RequestMethod.DELETE)
     ResponseEntity deleteProvider(@PathVariable String providerId
     ) {
         new ResponseEntity(providerService.deleteProvider(providerId), HttpStatus.NO_CONTENT)
     }
 
-//    @RequestMapping(value = '/demo', method = RequestMethod.GET)
-//    ResponseEntity demoMethod()
 }

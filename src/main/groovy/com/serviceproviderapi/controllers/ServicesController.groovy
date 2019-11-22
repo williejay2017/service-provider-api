@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,37 +24,43 @@ class ServicesController {
     ServicesService servicesService
 
     //create service
+    @CrossOrigin
     @RequestMapping(value = '/create', method = RequestMethod.POST)
     ResponseEntity<Services> createProviderService(@RequestBody ServiceRequest serviceRequest , @PathVariable('providerId') String providerId) {
         new ResponseEntity<Services>(servicesService.createService(serviceRequest, providerId), HttpStatus.CREATED)
     }
 
     //get single service
+    @CrossOrigin
     @RequestMapping(value = '/{serviceId}', method = RequestMethod.GET)
     ResponseEntity<Services> getService(@PathVariable('serviceId') String serviceId) {
         new ResponseEntity<Services>(servicesService.getService(serviceId), HttpStatus.OK)
     }
 
     //get all services
+    @CrossOrigin
     @RequestMapping(value = '/allservices', method = RequestMethod.GET)
     ResponseEntity<List<Services>> getAllServices(@PathVariable('providerId') String providerId) {
         new ResponseEntity<List<Services>>(servicesService.getAllServices(providerId), HttpStatus.OK)
     }
 
     //update specific service
+    @CrossOrigin
     @RequestMapping(value = '/update', method = RequestMethod.PUT)
     ResponseEntity<Services> updateService(@RequestBody ServiceRequest serviceRequest) {
         new ResponseEntity<Services>(servicesService.updateService(serviceRequest), HttpStatus.OK)
     }
 
     //delete a service
+    @CrossOrigin
     @RequestMapping(value = '/{serviceId}', method = RequestMethod.DELETE)
     ResponseEntity deleteService(@PathVariable('serviceId') String serviceId) {
         new ResponseEntity(servicesService.deleteServices(serviceId), HttpStatus.OK)
     }
 
     //retrieve a list of services given challenges
-    @RequestMapping(value = '/retrieve', method = RequestMethod.GET)
+    @CrossOrigin
+    @RequestMapping(value = '/retrieve', method = RequestMethod.POST)
     ResponseEntity<List<Services>> getServicesAssociateWithChallenges(@RequestBody List<String> challengeIds) {
         new ResponseEntity<List<Services>>(servicesService.getServicesAssociateToChallenge(challengeIds), HttpStatus.ACCEPTED)
     }

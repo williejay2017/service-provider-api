@@ -1,6 +1,5 @@
 package com.serviceproviderapi.services.v1
 
-import com.serviceproviderapi.Exceptions.BadRequestException
 import com.serviceproviderapi.entities.Challenge
 import com.serviceproviderapi.entities.Services
 import com.serviceproviderapi.repositories.ChallengeRepository
