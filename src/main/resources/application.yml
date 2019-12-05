@@ -11,7 +11,7 @@ spring:
     database: POSTGRESQL
     show-sql: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
     platform: postgre
     url: jdbc:postgresql://schdb.cximbrleqgzo.us-east-2.rds.amazonaws.com:5432/postgres
