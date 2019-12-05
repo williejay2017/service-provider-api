@@ -6,6 +6,8 @@ import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -16,9 +18,9 @@ import javax.persistence.Table
 @Table(name='service')
 class Services implements Serializable {
 
-    @Id
-    @Column(name='service_id')
-    String id
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = 'id')
+    int id
 
     @Column(name='service_name')
     String name

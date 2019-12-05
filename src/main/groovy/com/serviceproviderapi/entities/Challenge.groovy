@@ -22,7 +22,7 @@ class Challenge implements Serializable{
 
     @JsonIgnore
     @ManyToOne(targetEntity = Services.class)
-    @JoinColumn(name = 'serviceId')
+    @JoinColumn(name = 'service_id')
     Services serviceId
 
     @Column(name = 'challenge_id')
