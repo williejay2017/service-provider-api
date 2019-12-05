@@ -15,7 +15,7 @@ import javax.persistence.Table
 @Table(name='ethnicities')
 class Ethnicity implements Serializable {
 
-    @Id @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = 'id')
     int id
 

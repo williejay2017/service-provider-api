@@ -10,27 +10,32 @@ import org.springframework.lang.Nullable
 
 import javax.validation.constraints.NotNull
 
-class ServiceRequest {
+class UpdateServicesRequest {
 
-    @NotNull
-    String name
-
-    @NotNull
+    @Nullable
     String type
 
-    @NotNull
-    List<Address> address
+    @Nullable
+    String name
 
     @Nullable
-    List<Ethnicity> ethnicity
+    Address address
 
     @Nullable
-    List<Language> language
+    int addressId
+
+    @Nullable
+    Ethnicity ethnicity
+
+    @Nullable
+    Language language
 
     @Nullable
     List<Point> geometry
 
     @Nullable
-    List<Challenge> challenge
+    Challenge challenge
 
 }
+
+

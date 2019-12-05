@@ -12,6 +12,8 @@ interface ServicesRepository extends JpaRepository<Services,Long> {
 
     Services findByName(String serviceName)
 
+    Services findById(int serviceId)
+
     void deleteById(String id)
 }
 

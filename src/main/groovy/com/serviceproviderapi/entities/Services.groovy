@@ -18,7 +18,7 @@ import javax.persistence.Table
 @Table(name='service')
 class Services implements Serializable {
 
-    @Id @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = 'id')
     int id
 

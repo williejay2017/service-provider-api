@@ -25,8 +25,7 @@ class ProviderController {
     //create provider
     @CrossOrigin
     @RequestMapping(value = '/create', method = RequestMethod.POST)
-    ResponseEntity<Provider> createProvider(@RequestBody ProviderRequest providerRequest)
-    {
+    ResponseEntity<Provider> createProvider(@RequestBody ProviderRequest providerRequest) {
         new ResponseEntity<Provider>(providerService.createProvider(providerRequest), HttpStatus.CREATED)
     }
 
@@ -40,8 +39,7 @@ class ProviderController {
     //update provider
     @CrossOrigin
     @RequestMapping(value = '/update', method = RequestMethod.PUT)
-    ResponseEntity<Provider> updateProvider(@RequestBody ProviderRequest providerRequest)
-    {
+    ResponseEntity<Provider> updateProvider(@RequestBody ProviderRequest providerRequest) {
         new ResponseEntity<Provider>(providerService.updateProvider(providerRequest), HttpStatus.OK)
     }
 

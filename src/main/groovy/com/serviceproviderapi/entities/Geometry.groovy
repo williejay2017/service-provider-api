@@ -21,7 +21,7 @@ import javax.persistence.Table
 @Table(name = 'geometries')
 class Geometry implements Serializable {
 
-    @Id @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = 'id')
     int id
 
@@ -31,6 +31,6 @@ class Geometry implements Serializable {
     Services serviceId
 
     @Column(name = 'geometry')
-    List<Point> geometry
+    Polygon geometry
 
 }

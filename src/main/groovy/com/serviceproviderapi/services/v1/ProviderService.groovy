@@ -18,7 +18,7 @@ class ProviderService {
 
     Provider createProvider(ProviderRequest providerRequest) {
         Provider provider = providerRepository.findById(providerRequest.id)
-        if(provider) {
+        if (provider) {
             throw new BadRequestException(message: 'provider exist', status: HttpStatus.FOUND)
         }
         Provider prov = new Provider(
@@ -28,17 +28,17 @@ class ProviderService {
                 phone: providerRequest.phone,
                 fax: providerRequest.fax
         )
-        providerRepository.save(prov)
+        saveProvider(prov)
         prov
     }
 
     Provider updateProvider(ProviderRequest providerRequest) {
-        Provider update = providerRepository.findById(providerRequest.id)
+        Provider update = getProvider(providerRequest.id)
         update.name = providerRequest.name
         update.email = providerRequest.email
         update.phone = providerRequest.phone
         update.fax = providerRequest.fax
-        providerRepository.save(update)
+        saveProvider(update)
         update
     }
 
@@ -52,7 +52,7 @@ class ProviderService {
 
     Provider getProvider(String id) {
         Provider provider = providerRepository.findById(id)
-        if(provider) {
+        if (provider) {
             return provider
         }
         throw new BadRequestException(message: 'could not find provider', status: HttpStatus.NOT_FOUND)

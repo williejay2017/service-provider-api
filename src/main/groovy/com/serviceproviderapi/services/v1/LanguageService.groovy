@@ -1,9 +1,11 @@
 package com.serviceproviderapi.services.v1
 
+import com.serviceproviderapi.Exceptions.BadRequestException
 import com.serviceproviderapi.entities.Language
 import com.serviceproviderapi.entities.Services
 import com.serviceproviderapi.repositories.LanguageRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -28,14 +30,22 @@ class LanguageService {
     }
 
     void addLanguageToService(List<Language> languageList, Services services) {
-        for(language in languageList){
+        for (language in languageList) {
             createLanguage(language, services)
         }
     }
 
-    void addLanguageToService(List<Language> languageList, String serviceName) {
-        Services services1 = servicesService.getService(serviceName)
-        addLanguageToService(languageList, services1)
+    void addLanguageToService(Language language, int serviceId) {
+        Services services = servicesService.getService(serviceId)
+        Language languageCheck = services.languages.find { target -> target.language == language.language }
+        if (languageCheck) {
+            throw new BadRequestException(message: 'language already exist', status: HttpStatus.FOUND)
+        }
+        createLanguage(language, services)
+    }
+
+    void deleteLanguageFromService(Language language) {
+        languageRepository.delete(language)
     }
 
 }

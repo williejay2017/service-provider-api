@@ -15,7 +15,7 @@ import javax.persistence.Table
 @Table(name='languages')
 class Language implements Serializable{
 
-    @Id @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = 'id')
     int id
 
