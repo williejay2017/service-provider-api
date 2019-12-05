@@ -1,8 +1,11 @@
 package com.serviceproviderapi.entities
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -12,12 +15,15 @@ import javax.persistence.Table
 @Table(name='languages')
 class Language implements Serializable{
 
+    @Id @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @Column(name = 'id')
+    int id
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = 'service_id', insertable =true, updatable =true)
+    @JsonIgnore
+    @ManyToOne(targetEntity = Services.class)
+    @JoinColumn(name = 'service_id')
     Services serviceId
 
-    @Id
     @Column(name='language')
     String language
 

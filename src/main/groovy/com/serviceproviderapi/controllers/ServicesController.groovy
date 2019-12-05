@@ -32,9 +32,9 @@ class ServicesController {
 
     //get single service
     @CrossOrigin
-    @RequestMapping(value = '/{serviceId}', method = RequestMethod.GET)
-    ResponseEntity<Services> getService(@PathVariable('serviceId') String serviceId) {
-        new ResponseEntity<Services>(servicesService.getService(serviceId), HttpStatus.OK)
+    @RequestMapping(value = '/{serviceName}', method = RequestMethod.GET)
+    ResponseEntity<Services> getService(@PathVariable('serviceName') String serviceName) {
+        new ResponseEntity<Services>(servicesService.getService(serviceName), HttpStatus.OK)
     }
 
     //get all services
@@ -53,9 +53,9 @@ class ServicesController {
 
     //delete a service
     @CrossOrigin
-    @RequestMapping(value = '/{serviceId}', method = RequestMethod.DELETE)
-    ResponseEntity deleteService(@PathVariable('serviceId') String serviceId) {
-        new ResponseEntity(servicesService.deleteServices(serviceId), HttpStatus.OK)
+    @RequestMapping(value = '/{serviceName}', method = RequestMethod.DELETE)
+    ResponseEntity deleteService(@PathVariable('serviceName') String serviceName) {
+        new ResponseEntity(servicesService.deleteServices(serviceName), HttpStatus.OK)
     }
 
     //retrieve a list of services given challenges

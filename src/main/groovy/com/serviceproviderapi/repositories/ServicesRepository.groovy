@@ -10,8 +10,8 @@ interface ServicesRepository extends JpaRepository<Services,Long> {
 
     List<Services> findByProviderId(String providerId)
 
-    Services findById(String serviceId)
+    Services findByName(String serviceName)
 
     void deleteById(String id)
-
 }
+

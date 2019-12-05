@@ -16,8 +16,7 @@ class ProviderService {
     ProviderRepository providerRepository
 
 
-
-   Provider createProvider(ProviderRequest providerRequest) {
+    Provider createProvider(ProviderRequest providerRequest) {
         Provider provider = providerRepository.findById(providerRequest.id)
         if(provider) {
             throw new BadRequestException(message: 'provider exist', status: HttpStatus.FOUND)

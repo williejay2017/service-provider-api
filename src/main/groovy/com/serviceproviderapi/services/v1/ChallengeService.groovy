@@ -12,6 +12,9 @@ class ChallengeService {
     @Autowired
     ChallengeRepository challengeRepository
 
+    @Autowired
+    ServicesService servicesService
+
     void saveChallenge (Challenge challenge) {
         challengeRepository.save(challenge)
     }
@@ -22,5 +25,16 @@ class ChallengeService {
                 serviceId: services
         )
         saveChallenge(challenge)
+    }
+
+    void addChallengeToService(List<Challenge> challengeList, Services services) {
+        for(challenge in challengeList){
+            createChallenge(services, challenge.challengeId)
+        }
+    }
+
+    void addChallengeToService(List<Challenge> challengeList, String serviceName) {
+        Services services1 = servicesService.getService(serviceName)
+        addChallengeToService(challengeList, services1)
     }
 }

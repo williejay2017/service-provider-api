@@ -3,6 +3,7 @@ package com.serviceproviderapi.services.v1
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.serviceproviderapi.Exceptions.BadRequestException
 import com.serviceproviderapi.entities.Address
+import com.serviceproviderapi.entities.Challenge
 import com.serviceproviderapi.entities.Provider
 import com.serviceproviderapi.entities.Services
 import com.serviceproviderapi.repositories.ServicesRepository
@@ -28,36 +29,56 @@ class ServicesService {
     @Autowired
     ChallengeService challengeService
 
+    @Autowired
+    GeometryService geometryService
+
+    @Autowired
+    EthnicityService ethnicityService
+
+    @Autowired
+    LanguageService languageService
+
 
     Services createService (ServiceRequest serviceRequest, String providerId) {
         Provider provider = providerService.getProvider(providerId)
         Services services = new Services(
-                id: serviceRequest.id,
                 name: serviceRequest.name,
                 type: serviceRequest.type,
                 provider: provider,
         )
+
         if(provider.services.contains(services)) {
             throw new BadHttpRequest(detailMessage: 'Service Already Exist')
         }
+
         servicesRepository.save(services)
 
         if(serviceRequest.address) {
-            for(address in serviceRequest.address) {
-                addressService.createAddress(address, services)
-            }
+            addressService.addAddressToService(serviceRequest.address, services)
         }
 
         if(serviceRequest.challenge) {
-            for(challenge in serviceRequest.challenge) {
-                challengeService.createChallenge(services, challenge.challengeId)
-            }
+            challengeService.addChallengeToService(serviceRequest.challenge, services)
         }
+
+        if(serviceRequest.ethnicity) {
+            ethnicityService.addEthnicityToService(serviceRequest.ethnicity, services)
+        }
+
+        if(serviceRequest.geometry) {
+            geometryService.addGeometryToService(serviceRequest.geometry, services)
+        }
+
+        if(serviceRequest.language) {
+            languageService.addLanguageToService(serviceRequest.language, services)
+        }
+
         services
     }
 
-    Services getService (String serviceId) {
-        Services services = servicesRepository.findById(serviceId)
+
+    Services getService (String serviceName) {
+        Services services = servicesRepository.findByName(serviceName)
         if(services) {
             return services
         }
@@ -70,7 +91,7 @@ class ServicesService {
     }
 
     Services updateService (ServiceRequest serviceRequest) {
-       Services update = servicesRepository.findById(serviceRequest.id)
+       Services update = servicesRepository.findByName(serviceRequest.name)
         update.name = serviceRequest.name
         update.type = serviceRequest.type
         servicesRepository.save(update)
@@ -95,11 +116,8 @@ class ServicesService {
         returnList.unique()
     }
 
-    void saveServices (Services services) {
-        servicesRepository.save(services)
-    }
-
-    void deleteServices (String serviceId) {
-        servicesRepository.deleteById(serviceId)
+    void deleteServices (String serviceName) {
+        Services services1 = servicesRepository.findByName(serviceName)
+        servicesRepository.deleteById(services1.id)
     }
 }

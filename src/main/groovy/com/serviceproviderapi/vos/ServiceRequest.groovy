@@ -3,17 +3,15 @@ package com.serviceproviderapi.vos
 import com.serviceproviderapi.entities.Address
 import com.serviceproviderapi.entities.Challenge
 import com.serviceproviderapi.entities.Ethnicity
-import com.serviceproviderapi.entities.Geometry
 import com.serviceproviderapi.entities.Language
+import org.springframework.data.geo.Point
+import org.springframework.data.geo.Polygon
 import org.springframework.lang.Nullable
 
 
 import javax.validation.constraints.NotNull
 
 class ServiceRequest {
-
-    @NotNull
-    String id
 
     @NotNull
     String name
@@ -31,7 +29,7 @@ class ServiceRequest {
     List<Language> language
 
     @Nullable
-    List<Geometry> geometry
+    List<Point> geometry
 
     @Nullable
     List<Challenge> challenge

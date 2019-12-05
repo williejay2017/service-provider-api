@@ -12,6 +12,9 @@ class AddressService {
     @Autowired
     AddressRepository addressRepository
 
+    @Autowired
+    ServicesService servicesService
+
     Address saveAddress (Address address) {
         addressRepository.save(address)
     }
@@ -24,8 +27,21 @@ class AddressService {
                 zipCode: address.zipCode,
                 serviceId: services
         )
+
         if(!addressRepository.findById(newAddress.id)) {
             saveAddress(newAddress)
         }
     }
+
+    void addAddressToService(List<Address> addressList, Services services){
+        for(address in addressList) {
+            createAddress(address, services)
+        }
+    }
+
+    void addAddressToService(List<Address> addressList, String serviceName){
+        Services services1 = servicesService.getService(serviceName)
+        addAddressToService(addressList, services1)
+    }
+
 }
