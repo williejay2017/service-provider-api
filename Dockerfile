@@ -1,4 +1,4 @@
 FROM openjdk:11-jre-slim
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ADD build/libs/service-provider-api.jar .
+EXPOSE 8888
+CMD java -jar service-provider-api.jar
