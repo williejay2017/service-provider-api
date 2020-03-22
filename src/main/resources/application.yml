@@ -5,18 +5,20 @@ spring:
     open-in-view: true
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           lob:
             non_contextual_creation: true
-    database: POSTGRESQL
-    show-sql: false
     hibernate:
       ddl-auto: update
+      show-sql: true
   datasource:
     platform: postgre
-    url: jdbc:postgresql://schdb.cximbrleqgzo.us-east-2.rds.amazonaws.com:5432/postgres
-    username: sch_admin
-    password: 1234work
-
+    url: jdbc:postgresql://postgres_sch:5432/postgres
+    username: admin
+    password: password
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    continue-on-error: true
 server:
-  port: 5000
+  port: 8086
